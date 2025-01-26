@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Box } from 'ink';
+import { Text, Box, Spacer } from 'ink';
 import fetchWeather from '../utils/fetchWeather.js';
+import parseArgs from '../utils/parseArgs.js';
+import { getDateAndTime } from '../utils/functions.js';
+
 
 export default function App() {
 	const [weatherData, setWeatherData] = useState(null);
 	const [error, setError] = useState(null);
+	const [dateTime, setDateTime] = useState({})
 
-	// location hard coded for testing. 
-	const location = '80487'
+	const { location, units, command } = parseArgs();
 
 	useEffect(() => {
 		(async () => {
 			try {
 				const data = await fetchWeather(location);
+				const { time, year, month, day } = getDateAndTime(data)
+				setDateTime({...dateTime, time, year, month, day})
 				setWeatherData(data);
 			} catch (err) {
 				setError(err.message);
@@ -32,9 +37,11 @@ export default function App() {
   const { temp_f, condition } = weatherData.current;
 
 	return (
-		<Box flexDirection='column' borderTop='single'>
-			<Text color="cyan">Current Weather in {cityName}, {region}, {country}:</Text>
-			<Box marginTop={1} flexDirection='column' borderStyle='round' borderColor="green" width={50}>
+		<Box flexDirection='column' borderStyle='round' borderColor='green'>
+			<Text color="cyan">{cityName}, {region}, {country}:</Text>
+			<Box marginTop={1} flexDirection='column' width={50}>
+				<Text color="cyanBright">{dateTime.month} {dateTime.day} - {dateTime.time}</Text>
+				{/* <Spacer /> */}
 				<Text>
 					Temperature:<Text color='blue'>{temp_f}°F</Text>
 				</Text>
