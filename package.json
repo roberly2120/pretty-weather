@@ -10,7 +10,8 @@
 		"node": ">=16"
 	},
 	"scripts": {
-		"build": "babel --out-dir=dist source && chmod +x dist/cli.js",
+		"clean": "rimraf dist",
+		"build": "npm run clean && babel --out-dir=dist source && chmod +x dist/cli.js",
 		"dev": "babel --out-dir=dist --watch source",
 		"test": "prettier --check . && xo && ava"
 	},
@@ -36,6 +37,7 @@
 		"import-jsx": "^5.0.0",
 		"ink-testing-library": "^3.0.0",
 		"prettier": "^2.8.7",
+		"rimraf": "^6.0.1",
 		"xo": "^0.53.1"
 	},
 	"ava": {

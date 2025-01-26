@@ -34,6 +34,17 @@ const getDateAndTime = (data) => {
     time
   }
 }
+
+const tempColor = (data) => {
+  let color = ""
+  const temp = parseInt(data.current.temp_f)
+  
+  if (temp <= 32) return "blueBright";
+  if (temp <= 60) return "cyanBright";
+  if (temp <= 80) return "greenBright";
+  return "redBright";
+}
 export {
-  getDateAndTime
+  getDateAndTime,
+  tempColor
 }
